@@ -18,6 +18,7 @@ import org.springframework.security.test.context.support.WithSecurityContext;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import sun.jvm.hotspot.utilities.Assert;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ class StudentServiceTest {
         List<Student> students = this.studentService.findAll();
         System.out.println(students);
         Assertions.assertEquals(1, students.size());
+        Assertions.assertEquals("zhangsan", students.get(0).getTeacherName());
     }
 
     @Test
@@ -83,7 +85,9 @@ class StudentServiceTest {
         students.add(new Student("lisi"));
         students.add(new Student("wangwu"));
 
-        Assertions.assertEquals(1, this.studentService.save(students));
+        List<Student> result = this.studentService.save(students);
+        Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals("zhangsan", result.get(0).getTeacherName());
     }
 
 }
